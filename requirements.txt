@@ -2,3 +2,4 @@ behave
 pytest
 selenium
 requests
+boto3
