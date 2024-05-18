@@ -1,5 +1,5 @@
 # ath_automation
-Cumulative framework to handle multiple type of tools
+Cumulative framework to support different types of automation frameworks
 
 ##behave related
 
