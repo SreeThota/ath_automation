@@ -6,10 +6,12 @@ def land_on_login_page(context):
     print(context.text, "\n")
     assert True
 
+
 @when('I logged in application as admin')
 def login(context):
     print(context.text, "\n")
     assert True
+
 
 @when('I map a table here')
 def table(context):

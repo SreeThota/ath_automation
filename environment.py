@@ -1,4 +1,12 @@
+import sys
+from utils.selenium.driver_factory import DriverFactory
+
 print('hello')
+
+for arg in sys.argv:
+    if 'browser=' in arg:
+        browser = arg.replace("browser=", "")
+    print('arg: ', arg)
 
 
 def before_all(context):
@@ -11,6 +19,7 @@ def after_all(context):
 
 def before_feature(context, feature):
     print('before every feature file')
+    print(feature.tags)
 
 
 def after_feature(context, feature):
@@ -19,6 +28,7 @@ def after_feature(context, feature):
 
 def before_scenario(context, scenario):
     print('before every scenario')
+    print(scenario.tags)
 
 
 def after_scenario(context, scenario):
@@ -30,12 +40,17 @@ def before_step(context, step):
 
 
 def after_step(context, step):
-    print('after every step')
+    print()
 
 
 def before_tag(context, tag):
-    print('before every tag -- must be controlled by using if condition like when tag matches')
+    # This block runs before every tag.
+    if 'ui' in tag:
+        context.driver = DriverFactory(browser).get_driver_instance()
+        context.driver.get("https://www.google.com")
 
 
 def after_tag(context, tag):
-    print('after every tag -- must be controlled by using if condition like when tag matches')
+    if 'ui' in tag and context.driver is not None:
+        context.driver.quit()
+    # This block runs for after every tag
