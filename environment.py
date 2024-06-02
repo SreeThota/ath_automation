@@ -2,6 +2,7 @@ import sys
 from utils.selenium.driver_factory import DriverFactory
 
 print('hello')
+browser = 'chrome'
 
 for arg in sys.argv:
     if 'browser=' in arg:
@@ -53,4 +54,4 @@ def before_tag(context, tag):
 def after_tag(context, tag):
     if 'ui' in tag and context.driver is not None:
         context.driver.quit()
-    # This block runs for after every tag
+    # This block runs after every tag
