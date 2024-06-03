@@ -1,13 +1,15 @@
 import sys
 from utils.selenium.driver_factory import DriverFactory
 
-print('hello')
+
 browser = 'chrome'
+headless = False
 
 for arg in sys.argv:
     if 'browser=' in arg:
         browser = arg.replace("browser=", "")
-    print('arg: ', arg)
+    if 'headless' in arg:
+        headless = True
 
 
 def before_all(context):
@@ -47,7 +49,11 @@ def after_step(context, step):
 def before_tag(context, tag):
     # This block runs before every tag.
     if 'ui' in tag:
-        context.driver = DriverFactory(browser).get_driver_instance()
+        options = ['--disable-extensions']
+        if headless:
+            options.append('--headless')
+        # options.append('--window-size=1920,1080');   Enable this only if we need to run tests in that resolution
+        context.driver = DriverFactory(browser, options).get_driver_instance()
         context.driver.get("https://www.google.com")
 
 

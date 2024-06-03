@@ -29,58 +29,52 @@ class SeleniumHelper:
         return WebDriverWait(driver, timeout).until(expected_conditions.title_contains(partial_title))
 
     @staticmethod
-    def wait_for_element_present_and_get(driver: WebDriver, locator_info: dict, timeout=10):
+    def wait_for_element_present_and_get(driver: WebDriver, locator_info: tuple, timeout=10):
         element: WebElement = (WebDriverWait(driver, timeout)
-                               .until(expected_conditions.presence_of_element_located((locator_info['type'],
-                                                                                       locator_info['value']))))
+                               .until(expected_conditions.presence_of_element_located(locator_info)))
         return element
 
     @staticmethod
-    def wait_for_element_visible_and_get(driver: WebDriver, locator_info: dict, timeout=10):
+    def wait_for_element_visible_and_get(driver: WebDriver, locator_info: tuple, timeout=10):
         element: WebElement = (WebDriverWait(driver, timeout)
-                               .until(expected_conditions.visibility_of_element_located((locator_info['type'],
-                                                                                         locator_info['value']))))
+                               .until(expected_conditions.visibility_of_element_located(locator_info)))
         return element
 
     @staticmethod
-    def wait_for_already_present_element_is_visible_and_get(driver: WebDriver, locator_info: dict,
+    def wait_for_already_present_element_is_visible_and_get(driver: WebDriver, locator_info: tuple,
                                                             timeout=10):
         element: WebElement = (WebDriverWait(driver, timeout).until(expected_conditions.visibility_of(
             SeleniumHelper.get_web_element(driver, locator_info))))
         return element
 
     @staticmethod
-    def wait_for_presence_of_all_matching_elements_and_get(driver: WebDriver, locator_info: dict,
+    def wait_for_presence_of_all_matching_elements_and_get(driver: WebDriver, locator_info: tuple,
                                                            timeout=10):
         matching_elements_list: list[WebElement] = (WebDriverWait(driver, timeout).until(
             expected_conditions.presence_of_all_elements_located(
-                (locator_info['type'],
-                 locator_info['value']))))
+                locator_info)))
         return matching_elements_list
 
     @staticmethod
-    def wait_and_check_text_present_in_element(driver: WebDriver, locator_info: dict,
+    def wait_and_check_text_present_in_element(driver: WebDriver, locator_info: tuple,
                                                expected_text: str, timeout=10):
         is_text_present: bool = (WebDriverWait(driver, timeout).until(
-            expected_conditions.text_to_be_present_in_element((locator_info['type'],
-                                                               locator_info['value']), expected_text)))
+            expected_conditions.text_to_be_present_in_element(locator_info, expected_text)))
         return is_text_present
 
     @staticmethod
-    def wait_and_check_text_present_in_element_value(driver: WebDriver, locator_info: dict,
+    def wait_and_check_text_present_in_element_value(driver: WebDriver, locator_info: tuple,
                                                      expected_text: str, timeout=10):
         is_value_present: bool = (WebDriverWait(driver, timeout).until(
-            expected_conditions.text_to_be_present_in_element_value((locator_info['type'],
-                                                                     locator_info['value']), expected_text)))
+            expected_conditions.text_to_be_present_in_element_value(locator_info, expected_text)))
         return is_value_present
 
     @staticmethod
-    def wait_and_check_text_present_in_element_attribute(driver: WebDriver, locator_info: dict,
+    def wait_and_check_text_present_in_element_attribute(driver: WebDriver, locator_info: tuple,
                                                          attribute: str,
                                                          expected_text: str, timeout=10):
         is_value_present_in_attr: bool = (WebDriverWait(driver, timeout).until(
-            expected_conditions.text_to_be_present_in_element_attribute((locator_info['type'],
-                                                                         locator_info['value']), attribute,
+            expected_conditions.text_to_be_present_in_element_attribute(locator_info, attribute,
                                                                         expected_text)))
         return is_value_present_in_attr
 
@@ -92,41 +86,41 @@ class SeleniumHelper:
         return is_switched
 
     @staticmethod
-    def wait_for_invisibility_of_element(driver: WebDriver, locator_info: dict, timeout=10):
+    def wait_for_invisibility_of_element(driver: WebDriver, locator_info: tuple, timeout=10):
         element: WebElement = WebDriverWait(driver, timeout).until(
             expected_conditions.invisibility_of_element(SeleniumHelper.get_web_element(driver, locator_info)))
         return element
 
     @staticmethod
-    def wait_for_invisibility_of_element_located(driver: WebDriver, locator_info: dict, timeout=10):
+    def wait_for_invisibility_of_element_located(driver: WebDriver, locator_info: tuple, timeout=10):
         element: WebElement = WebDriverWait(driver, timeout).until(
             expected_conditions.invisibility_of_element_located((SeleniumHelper.get_web_element(driver, locator_info))))
         return element
 
     @staticmethod
-    def wait_for_element_to_be_clickable(driver: WebDriver, locator_info: dict, timeout=10):
+    def wait_for_element_to_be_clickable(driver: WebDriver, locator_info: tuple, timeout=10):
         element: WebElement = WebDriverWait(driver, timeout).until(
             expected_conditions.element_to_be_clickable(SeleniumHelper.get_web_element(driver, locator_info)))
         return element
 
     @staticmethod
-    def wait_for_staleness_of_element(driver: WebDriver, locator_info: dict, timeout=10):
+    def wait_for_staleness_of_element(driver: WebDriver, locator_info: tuple, timeout=10):
         is_stale: bool = WebDriverWait(driver, timeout).until(
             expected_conditions.staleness_of(SeleniumHelper.get_web_element(driver, locator_info)))
         return is_stale
 
     @staticmethod
-    def wait_for_element_to_be_selected(driver: WebDriver, locator_info: dict, timeout=10):
+    def wait_for_element_to_be_selected(driver: WebDriver, locator_info: tuple, timeout=10):
         WebDriverWait(driver, timeout).until(
             expected_conditions.element_to_be_selected(SeleniumHelper.get_web_element(driver, locator_info)))
 
     @staticmethod
-    def wait_for_element_located_to_be_selected(driver: WebDriver, locator_info: dict, timeout=10):
+    def wait_for_element_located_to_be_selected(driver: WebDriver, locator_info: tuple, timeout=10):
         WebDriverWait(driver, timeout).until(
-            expected_conditions.element_located_to_be_selected((locator_info['type'], locator_info['value'])))
+            expected_conditions.element_located_to_be_selected(locator_info))
 
     @staticmethod
-    def wait_for_element_selection_state_to_be(driver: WebDriver, locator_info: dict,
+    def wait_for_element_selection_state_to_be(driver: WebDriver, locator_info: tuple,
                                                selection_state: bool, timeout=10):
         is_selected: bool = WebDriverWait(driver, timeout).until(
             expected_conditions.element_selection_state_to_be(
@@ -134,11 +128,11 @@ class SeleniumHelper:
         return is_selected
 
     @staticmethod
-    def wait_for_element_located_selection_state_to_be(driver: WebDriver, locator_info: dict,
+    def wait_for_element_located_selection_state_to_be(driver: WebDriver, locator_info: tuple,
                                                        selection_state: bool, timeout=10):
         is_selected: bool = WebDriverWait(driver, timeout).until(
             expected_conditions.element_located_selection_state_to_be(
-                (locator_info['type'], locator_info['value']), selection_state))
+                locator_info, selection_state))
         return is_selected
 
     @staticmethod
@@ -174,13 +168,13 @@ class SeleniumHelper:
         driver.get(url)
 
     @staticmethod
-    def get_web_element(driver: WebDriver, locator_info: dict) -> WebElement:
-        element: WebElement = driver.find_element(locator_info['type'], locator_info['value'])
+    def get_web_element(driver: WebDriver, locator_info: tuple) -> WebElement:
+        element: WebElement = driver.find_element(locator_info[0], locator_info[1])
         return element
 
     @staticmethod
-    def get_all_matching_web_elements(driver: WebDriver, locator_info: dict) -> list[WebElement]:
-        elements: list[WebElement] = driver.find_elements(locator_info['type'], locator_info['value'])
+    def get_all_matching_web_elements(driver: WebDriver, locator_info: tuple) -> list[WebElement]:
+        elements: list[WebElement] = driver.find_elements(locator_info[0], locator_info[1])
         return elements
 
     @staticmethod
@@ -252,6 +246,10 @@ class SeleniumHelper:
     @staticmethod
     def switch_to_parent_frame(driver: WebDriver):
         driver.switch_to.parent_frame()
+
+    @staticmethod
+    def switch_to_default_page(driver: WebDriver):
+        driver.switch_to.default_content()
 
     @staticmethod
     def switch_to_window(driver: WebDriver, window_name: str):
@@ -348,7 +346,7 @@ class SeleniumHelper:
     # WebElement class methods
 
     @staticmethod
-    def clear_text_from_element(driver: WebDriver, locator_info: dict, attempts=3):
+    def clear_text_from_element(driver: WebDriver, locator_info: tuple, attempts=3):
         cleared = False
         while attempts > 0 and not cleared:
             try:
@@ -362,7 +360,7 @@ class SeleniumHelper:
         return cleared
 
     @staticmethod
-    def is_element_visible(driver: WebDriver, locator_info: dict, attempts=3) -> bool:
+    def is_element_visible(driver: WebDriver, locator_info: tuple, attempts=3) -> bool:
         visible = False
         while attempts > 0 and not visible:
             try:
@@ -375,7 +373,7 @@ class SeleniumHelper:
         return visible
 
     @staticmethod
-    def is_element_enabled(driver: WebDriver, locator_info: dict, attempts=3) -> bool:
+    def is_element_enabled(driver: WebDriver, locator_info: tuple, attempts=3) -> bool:
         enabled = False
         while attempts > 0 and not enabled:
             try:
@@ -388,7 +386,7 @@ class SeleniumHelper:
         return enabled
 
     @staticmethod
-    def is_element_selected(driver: WebDriver, locator_info: dict, attempts=3) -> bool:
+    def is_element_selected(driver: WebDriver, locator_info: tuple, attempts=3) -> bool:
         selected = False
         while attempts > 0 and not selected:
             try:
@@ -401,7 +399,7 @@ class SeleniumHelper:
         return selected
 
     @staticmethod
-    def click_on_element(driver: WebDriver, locator_info: dict, attempts=3) -> None:
+    def click_on_element(driver: WebDriver, locator_info: tuple, attempts=3) -> None:
         is_clicked = False
         while attempts > 0 and not is_clicked:
             try:
@@ -414,7 +412,7 @@ class SeleniumHelper:
             RuntimeError("Unable to click on element with error")
 
     @staticmethod
-    def get_attribute_value(driver: WebDriver, locator_info: dict, attribute: str, attempts=3) -> str:
+    def get_attribute_value(driver: WebDriver, locator_info: tuple, attribute: str, attempts=3) -> str:
         is_retrieved = False
         value = ''
         while attempts > 0 and not is_retrieved:
@@ -429,7 +427,7 @@ class SeleniumHelper:
         return value
 
     @staticmethod
-    def get_dom_attribute_value(driver: WebDriver, locator_info: dict, attribute: str, attempts=3) -> str:
+    def get_dom_attribute_value(driver: WebDriver, locator_info: tuple, attribute: str, attempts=3) -> str:
         is_retrieved = False
         value = ''
         while attempts > 0 and not is_retrieved:
@@ -444,7 +442,7 @@ class SeleniumHelper:
         return value
 
     @staticmethod
-    def fill_element_with_input(driver: WebDriver, locator_info: dict, input_text: str, attempts=3) -> None:
+    def fill_element_with_input(driver: WebDriver, locator_info: tuple, input_text: str, attempts=3) -> None:
         is_action_performed = False
         while not is_action_performed and attempts > 0:
             try:
@@ -458,7 +456,7 @@ class SeleniumHelper:
             RuntimeError("Unable to enter input text into the element")
 
     @staticmethod
-    def submit_on_element(driver: WebDriver, locator_info: dict, attempts=3) -> None:
+    def submit_on_element(driver: WebDriver, locator_info: tuple, attempts=3) -> None:
         submitted = False
         while not submitted and attempts > 0:
             try:
@@ -475,77 +473,77 @@ class SeleniumHelper:
         return element.text
 
     @staticmethod
-    def get_text_of_element_by_locator(driver: WebDriver, locator_info: dict):
+    def get_text_of_element_by_locator(driver: WebDriver, locator_info: tuple):
         return SeleniumHelper.get_web_element(driver, locator_info).text
 
     @staticmethod
-    def get_property(driver: WebDriver, locator_info: dict,
+    def get_property(driver: WebDriver, locator_info: tuple,
                      property_name: str) -> str | bool | WebElement | dict:
         return SeleniumHelper.get_web_element(driver, locator_info).get_property(property_name)
 
     @staticmethod
-    def get_value_of_css_property(driver: WebDriver, locator_info: dict,
+    def get_value_of_css_property(driver: WebDriver, locator_info: tuple,
                                   property_name: str) -> str:
         return SeleniumHelper.get_web_element(driver, locator_info).value_of_css_property(property_name)
 
     @staticmethod
-    def get_web_element_screenshot(driver: WebDriver, locator_info: dict, file_name: str) -> bool:
+    def get_web_element_screenshot(driver: WebDriver, locator_info: tuple, file_name: str) -> bool:
         return SeleniumHelper.get_web_element(driver, locator_info).screenshot(file_name)
 
     @staticmethod
-    def enter_text_in_upper_case(driver: WebDriver, locator_info: dict, text: str):
+    def enter_text_in_upper_case(driver: WebDriver, locator_info: tuple, text: str):
         text = text.upper()
         SeleniumHelper.get_web_element(driver, locator_info).send_keys(text)
 
     @staticmethod
-    def enter_text_in_lower_case(driver: WebDriver, locator_info: dict, text: str):
+    def enter_text_in_lower_case(driver: WebDriver, locator_info: tuple, text: str):
         text = text.lower()
         SeleniumHelper.get_web_element(driver, locator_info).send_keys(text)
 
     # Select class methods
 
     @staticmethod
-    def deselect_all_options(driver: WebDriver, locator_info: dict) -> None:
+    def deselect_all_options(driver: WebDriver, locator_info: tuple) -> None:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         select.deselect_all()
 
     @staticmethod
-    def deselect_option_by_index(driver: WebDriver, locator_info: dict, index: int) -> None:
+    def deselect_option_by_index(driver: WebDriver, locator_info: tuple, index: int) -> None:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         select.deselect_by_index(index)
 
     @staticmethod
-    def select_option_by_index(driver: WebDriver, locator_info: dict, index: int) -> None:
+    def select_option_by_index(driver: WebDriver, locator_info: tuple, index: int) -> None:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         select.select_by_index(index)
 
     @staticmethod
-    def deselect_option_by_value(driver: WebDriver, locator_info: dict, value: str) -> None:
+    def deselect_option_by_value(driver: WebDriver, locator_info: tuple, value: str) -> None:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         select.deselect_by_value(value)
 
     @staticmethod
-    def select_option_by_value(driver: WebDriver, locator_info: dict, value: str) -> None:
+    def select_option_by_value(driver: WebDriver, locator_info: tuple, value: str) -> None:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         select.select_by_value(value)
 
     @staticmethod
-    def deselect_option_by_visible_text(driver: WebDriver, locator_info: dict, text: str) -> None:
+    def deselect_option_by_visible_text(driver: WebDriver, locator_info: tuple, text: str) -> None:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         select.deselect_by_visible_text(text)
 
     @staticmethod
-    def select_option_by_visible_text(driver: WebDriver, locator_info: dict, text: str) -> None:
+    def select_option_by_visible_text(driver: WebDriver, locator_info: tuple, text: str) -> None:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         select.select_by_visible_text(text)
 
     @staticmethod
-    def get_all_available_options_web_element(driver: WebDriver, locator_info: dict) -> list[WebElement]:
+    def get_all_available_options_web_element(driver: WebDriver, locator_info: tuple) -> list[WebElement]:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         return select.options
 
     @staticmethod
-    def get_all_available_options_text(driver: WebDriver, locator_info: dict) -> list[str]:
+    def get_all_available_options_text(driver: WebDriver, locator_info: tuple) -> list[str]:
         all_options = []
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         for option in select.options:
@@ -553,12 +551,12 @@ class SeleniumHelper:
         return all_options
 
     @staticmethod
-    def get_all_selected_options_web_element(driver: WebDriver, locator_info: dict) -> list[WebElement]:
+    def get_all_selected_options_web_element(driver: WebDriver, locator_info: tuple) -> list[WebElement]:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         return select.all_selected_options
 
     @staticmethod
-    def get_all_selected_options_text(driver: WebDriver, locator_info: dict) -> list[str]:
+    def get_all_selected_options_text(driver: WebDriver, locator_info: tuple) -> list[str]:
         all_options = []
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         for option in select.all_selected_options:
@@ -566,37 +564,38 @@ class SeleniumHelper:
         return all_options
 
     @staticmethod
-    def get_first_selected_option_web_element(driver: WebDriver, locator_info: dict) -> WebElement:
+    def get_first_selected_option_web_element(driver: WebDriver, locator_info: tuple) -> WebElement:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         return select.first_selected_option
 
     @staticmethod
-    def get_first_selected_option_text(driver: WebDriver, locator_info: dict) -> str:
+    def get_first_selected_option_text(driver: WebDriver, locator_info: tuple) -> str:
         select: Select = Select(SeleniumHelper.get_web_element(driver, locator_info))
         return select.first_selected_option.text
 
     # Action chains related methods
 
     @staticmethod
-    def move_to_element_and_click(driver: WebDriver, locator_info: dict):
+    def move_to_element_and_click(driver: WebDriver, locator_info: tuple):
         ActionChains(driver).move_to_element(SeleniumHelper.get_web_element(driver,
                                                                             locator_info)).click().perform()
 
     @staticmethod
-    def move_to_web_element(driver: WebDriver, locator_info: dict):
+    def move_to_web_element(driver: WebDriver, locator_info: tuple):
         ActionChains(driver).move_to_element(SeleniumHelper.get_web_element(driver, locator_info)).perform()
 
     @staticmethod
-    def enter_text_into_web_element_by_actions(driver: WebDriver, locator_info: dict, text: str):
+    def enter_text_into_web_element_by_actions(driver: WebDriver, locator_info: tuple, text: str):
         ActionChains(driver).click(SeleniumHelper.get_web_element(driver,
                                                                   locator_info)).send_keys(text).perform()
 
     @staticmethod
-    def do_right_click_on_element(driver: WebDriver, locator_info: dict):
+    def do_right_click_on_element(driver: WebDriver, locator_info: tuple):
+        # Make sure to do not call this function while running browser in headless mode
         ActionChains(driver).context_click(SeleniumHelper.get_web_element(driver, locator_info)).perform()
 
     @staticmethod
-    def double_click_on_element(driver: WebDriver, locator_info: dict):
+    def double_click_on_element(driver: WebDriver, locator_info: tuple):
         ActionChains(driver).double_click(SeleniumHelper.get_web_element(driver, locator_info)).perform()
 
     @staticmethod
@@ -612,20 +611,20 @@ class SeleniumHelper:
         ActionChains(driver).key_down(Keys.CONTROL).send_keys(key).key_up(Keys.CONTROL).perform()
 
     @staticmethod
-    def scroll_to_element(driver: WebDriver, locator_info: dict):
+    def scroll_to_element(driver: WebDriver, locator_info: tuple):
         ActionChains(driver).scroll_to_element(SeleniumHelper.get_web_element(driver, locator_info)).perform()
 
     @staticmethod
-    def perform_drag_and_drop(driver: WebDriver, source: dict, target):
+    def perform_drag_and_drop(driver: WebDriver, source: tuple, target: tuple):
         ActionChains(driver).drag_and_drop(SeleniumHelper.get_web_element(driver, source),
                                            SeleniumHelper.get_web_element(driver, target)).perform()
 
     @staticmethod
-    def click_and_hold_on_element(driver: WebDriver, locator_info: dict):
+    def click_and_hold_on_element(driver: WebDriver, locator_info: tuple):
         ActionChains(driver).click_and_hold(SeleniumHelper.get_web_element(driver, locator_info)).perform()
 
     @staticmethod
-    def release_click_hold_on_element(driver: WebDriver, locator_info: dict):
+    def release_click_hold_on_element(driver: WebDriver, locator_info: tuple):
         ActionChains(driver).release(SeleniumHelper.get_web_element(driver, locator_info)).perform()
 
     @staticmethod
