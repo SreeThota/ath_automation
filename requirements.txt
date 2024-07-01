@@ -4,3 +4,4 @@ selenium
 requests
 boto3
 oracledb
+mysql-connector-python

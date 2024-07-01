@@ -1,22 +1,25 @@
-import oracledb
+import mysql.connector
+
+"""
+Required: username, password, host (localhost for example), port
+"""
 
 
-class OracleDatabase:
-    username = ''
-    password = ''
-    url = ''
+class MySqlDatabase:
 
     @staticmethod
-    def get_connection(username: str, password: str, jdbc: str):
+    def get_connection(username: str, password: str, host: str, port=3306):
+        connection = None
         try:
-            connection = oracledb.connect(user=username, password=password, dns=jdbc)
+            connection = mysql.connector.connect(user=username, password=password, host=host, port=port)
+            print(connection)
         except Exception as e:
             print('Exception: ', e)
         return connection
 
     @staticmethod
     def query_and_retrieve_data(query: str):
-        connection = OracleDatabase.get_connection('', '', '')
+        connection = MySqlDatabase.get_connection('root', 'Test@1234', 'localhost')
         if connection:
             cursor = connection.cursor()
             cursor.execute(query)
@@ -28,7 +31,7 @@ class OracleDatabase:
 
     @staticmethod
     def perform_dml_operation(query: str):
-        connection = OracleDatabase.get_connection('', '', '')
+        connection = MySqlDatabase.get_connection('', '', '')
         if connection:
             cursor = connection.cursor()
             cursor.execute(query)
@@ -36,15 +39,3 @@ class OracleDatabase:
             if cursor:
                 cursor.close()
             connection.close()
-
-# import oracledb
-#
-# un = 'sreenu15alfa@gmail.com'
-# cs = 'livesql.oracle.com'
-# pw = 'Sreenu2315#'
-#
-# with oracledb.connect(user=un, password=pw, dsn=cs) as connection:
-#     with connection.cursor() as cursor:
-#         sql = """select sysdate from dual"""
-#         for r in cursor.execute(sql):
-#             print(r)

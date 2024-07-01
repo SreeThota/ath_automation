@@ -8,6 +8,7 @@ def land_on_login_page(context):
     SeleniumHelper.click_on_element(context.driver, FirstPage.SIGN_IN)
     SeleniumHelper.enter_text_in_lower_case(context.driver, FirstPage.EMAIL_OR_PHONE, "HELLO")
     SeleniumHelper.do_right_click_on_element(context.driver, FirstPage.BUTTON_TEXT)
+    SeleniumHelper.pause_for(10)
     print(context.text, "\n")
     assert True
 
