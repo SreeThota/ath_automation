@@ -1,0 +1,20 @@
+{
+  "sakila.payment": {
+    "ref_source": {
+      "customer_id": "select customer_id from sakila.customer",
+      "staff_id": "select staff_id from sakila.staff",
+      "rental_id": "select rental_id from sakila.rental"
+    },
+    "pk_check": "select payment_id, count(*) from sakila.payment group by payment_id having count(*) > 1",
+    "mandatory_columns_check": {
+      "customer_id": "select count(*) from sakila.payment where customer_id is null",
+      "staff_id": "select count(*) from sakila.payment where staff_id is null",
+      "rental_id": "select count(*) from sakila.payment where rental_id is null"
+    },
+    "fk_check": {
+      "customer_id": "select count(*) from sakila.payment where customer_id not in (select customer_id from sakila.customer)",
+      "staff_id": "select count(*) from sakila.payment where staff_id not in (select staff_id from sakila.staff)",
+      "rental_id": "select count(*) from sakila.payment where rental_id not in (select rental_id from sakila.rental)"
+    }
+  }
+}

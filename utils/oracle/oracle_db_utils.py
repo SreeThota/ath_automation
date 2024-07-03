@@ -15,7 +15,7 @@ class OracleDatabase:
         return connection
 
     @staticmethod
-    def query_and_retrieve_data(query: str):
+    def execute_query(query: str):
         connection = OracleDatabase.get_connection('', '', '')
         if connection:
             cursor = connection.cursor()
