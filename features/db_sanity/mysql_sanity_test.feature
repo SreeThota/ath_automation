@@ -11,7 +11,7 @@ Feature: There are several tables which will be requiring few set of sanity chec
     Given Schema <schema> name
     And   Table <table> name
     When  I query all records of table
-    And   I insert 1 entry into the table
+    And   I insert 3 entry into the table
     And   I query all records of the table after insertion
     Then  I verify record count matched
     When  I query duplicate records in table

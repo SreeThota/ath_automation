@@ -57,6 +57,8 @@ def insert_record_into_table(context, insert_count: str):
 
 @then('I verify record count matched')
 def verify_records_count_matched(context):
+    print('expected: ', len(context.rows))
+    print('actual: ', len(context.actual_rows))
     assert len(context.rows) == len(context.actual_rows)
 
 
@@ -71,12 +73,14 @@ def query_duplicate_records(context):
 
 @then('I verify no duplicates found in table')
 def verify_no_duplicates(context):
+    print('duplicate count: ', len(context.duplicate_rows))
     assert len(context.duplicate_rows) == 0
 
 
 @then('I verify content of the table matched')
 def verify_content_matched(context):
     diff = [x for x in set(context.rows).symmetric_difference(set(context.actual_rows))]
+    print('diff: ', len(diff))
     assert len(diff) == 0
     # print(context.rows[0])
     # print(context.actual_rows[0])
@@ -94,7 +98,9 @@ def verify_none_of_mandatory_columns_have_empty_or_null(context):
                                                              rf'utils\mysql')
     mandatory_columns_queries = reference_queries[rf'{context.schema}.{context.table_name}']['mandatory_columns_check']
     for key in mandatory_columns_queries:
+        print(mandatory_columns_queries[key])
         rows = MySqlDatabase.execute_query(mandatory_columns_queries[key])
+        # print(rf'${context.table_name} diff', rows[0][0])
         assert rows[0][0] == 0
 
 
@@ -104,5 +110,6 @@ def verify_no_fk_reference_issue_exists(context):
                                                              rf'utils\mysql')
     fk_check_queries = reference_queries[rf'{context.schema}.{context.table_name}']['fk_check']
     for key in fk_check_queries:
+        print(fk_check_queries[key])
         rows = MySqlDatabase.execute_query(fk_check_queries[key])
         assert rows[0][0] == 0

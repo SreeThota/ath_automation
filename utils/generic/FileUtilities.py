@@ -1,5 +1,4 @@
 import os
-import json
 import yaml
 import gzip
 import pathlib
@@ -8,12 +7,11 @@ import pandas as pd
 import numpy
 import re
 import fnmatch
-import zipfile
 import csv
 from avro.datafile import DataFileReader
 from avro.io import DatumReader
 import json
-import jsonlines
+import io
 
 
 class FileUtilities:
@@ -728,7 +726,7 @@ class FileUtilities:
                     file_directory=file_directory,
                     columns=columns,
                 )
-            elif ".dat.gz" in file_name or ".csv.gz" in file_name:
+            elif ".dat.gz" in file_name:
                 data = []
                 path = os.path.join(os.getcwd(), file_directory, file_name)
                 with gzip.open(path, "rb") as fin:
@@ -772,6 +770,10 @@ class FileUtilities:
                     final_list.append(obje)
                 # print(len(final_list))
                 return final_list
+            elif "csv.gz" in file_name:
+                data = FileUtilities.read_csv_gz_file_content_into_list_of_objects(
+                    file_name=file_name, file_directory=file_directory)
+                return data
             elif ".jsonl.gz" in file_name:
                 path = os.path.join(os.getcwd(), file_directory, file_name)
                 data = []
@@ -890,15 +892,47 @@ class FileUtilities:
         return list1
 
     @staticmethod
-    def read_json_keys_values(object, prev_key=None, keys=[]):
-        if type(object) != type({}):
+    def read_json_keys_values(obj_info, prev_key=None, keys=[]):
+        if type(obj_info) != type({}):
             keys.append(prev_key)
             return keys
         new_keys = []
-        for k, v in object.items():
-            if prev_key != None:
+        for k, v in obj_info.items():
+            if prev_key is not None:
                 new_key = "{}.{}".format(prev_key, k)
             else:
                 new_key = k
             new_keys.extend(FileUtilities.read_json_keys_values(v, new_key, []))
         return new_keys
+
+    """
+        Method to read csv.gz files and return entire data in list of objects.
+        Here headers and values are being converted to json object and then append into list
+        returns list<object>
+        """
+
+    @staticmethod
+    def read_csv_gz_file_content_into_list_of_objects(file_name, file_directory='',
+                                                      encoding='utf-8'):
+        path = os.path.join(os.getcwd(), file_directory, file_name)
+        data = []
+        with gzip.open(path, 'rb') as f:
+            with io.TextIOWrapper(f, encoding=encoding) as text_file:
+                # Create a CSV reader object
+                reader = csv.reader(text_file)
+                current_data = []
+                # Iterate over the rows of the CSV file
+                for row in reader:
+                    # Each row is a list of strings
+                    current_data.append(row)
+                    # print(row)
+                headers = current_data[0]
+                for data_index in range(1, len(current_data)):
+                    local = {}
+                    for header_index in range(len(headers)):
+                        # header = headers[header_index].casefold().replace(" ", "_").replace("#", "number").replace("%", "percentage")
+                        # local[header] = current_data[data_index][header_index] if current_data[data_index][header_index] != 'null' else ''
+                        local[headers[header_index]] = current_data[data_index][header_index] if \
+                            current_data[data_index][header_index] != 'null' else ''
+                    data.append(local)
+                return data
